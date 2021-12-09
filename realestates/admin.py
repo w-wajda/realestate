@@ -1,12 +1,9 @@
 from django.contrib import admin
-from realestates.models import Flat, House, Address
+from realestates.models import Realestate, Flat, Plot, Address
 
-
-@admin.register
-class FlatAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(House)
+admin.site.register(Realestate)
+admin.site.register(Flat)
+admin.site.register(Plot)
 admin.site.register(Address)
 
 
