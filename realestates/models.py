@@ -23,21 +23,7 @@ class Flat(models.Model):
     realestate = models.ForeignKey(Realestate, on_delete=models.CASCADE, null=True, blank=False)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class Garage(models.Model):
+    realestate = models.ForeignKey(Realestate, on_delete=models.CASCADE, null=True, blank=False)
 
 
