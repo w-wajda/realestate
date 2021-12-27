@@ -5,6 +5,13 @@ from django.db.models import Q
 from gfklookupwidget.fields import GfkLookupField
 
 
+class Client(models.Model):
+    name = models.CharField(verbose_name='Name', max_length=20)
+    surname = models.CharField(verbose_name='Surname', max_length=50)
+    email = models.EmailField(verbose_name='Email')
+    mobile_number = models.CharField(verbose_name='Mobile number', max_length=20, null=True, blank=True)
+
+
 class Address(models.Model):
     street = models.CharField(verbose_name='Street', max_length=100)
     street_number = models.CharField(verbose_name='Street number', max_length=10)
@@ -34,6 +41,7 @@ class Plot(models.Model):
                                      blank=True)
 
     address = models.OneToOneField(Address, on_delete=models.CASCADE, verbose_name='Plot address')
+    description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
         return f'{self.get_type_display()}, ({self.address.city}, {self.address.street} {self.address.street_number})'
@@ -55,6 +63,7 @@ class Realestate(models.Model):
                                blank=True)
     number_floors = models.PositiveSmallIntegerField(verbose_name='Number floors')
     year_built = models.DateField(verbose_name='Year built')
+    description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
         return f'{self.get_type_display()}, ({self.plot.address.city}, {self.plot.address.street}' \
@@ -89,6 +98,7 @@ class Flat(models.Model):
     kitchen_type = models.IntegerField(verbose_name='Kitchen type', choices=KITCHEN)
     bathroom = models.PositiveSmallIntegerField(verbose_name='Number of bathroom')
     balcony_type = models.IntegerField(verbose_name='Balcony type', choices=BALCONY_TYPES, null=True, blank=False)
+    description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
         return f'{self.realestate.plot.address.city}, ({self.realestate.plot.address.street}' \
@@ -113,6 +123,7 @@ class Garage(models.Model):
 
     type = models.IntegerField(verbose_name='Garage type', choices=GARAGE_TYPES)
     parking_number = models.PositiveSmallIntegerField(verbose_name='Parking space number')
+    description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
         return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, {self.realestate.plot.address.street}' \
@@ -139,6 +150,8 @@ class Offer(models.Model):
     # object_id = models.PositiveIntegerField()
     object_id = GfkLookupField('content_type')  # lupka do wyboru obiektu
     content_object = GenericForeignKey('content_type', 'object_id')  # powiązuje content_type i object_id
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name='Client', null=True, blank=True)
 
     def __str__(self):
         return f'{self.get_type_display()}, ({self.content_type})'
