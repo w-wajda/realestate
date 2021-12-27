@@ -1,5 +1,12 @@
 from django.contrib import admin
-from realestates.models import Address, Plot, Realestate, Flat, Garage, Offer
+from realestates.models import (
+    Address,
+    Plot,
+    Realestate,
+    Flat,
+    Garage,
+    Offer
+)
 
 admin.site.register(Address)
 admin.site.register(Plot)

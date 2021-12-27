@@ -37,29 +37,6 @@ class Plot(models.Model):
         return f'{self.get_type_display()}, ({self.address.city}, {self.address.street} {self.address.street_number})'
 
 
-class Garage(models.Model):
-    NO_GARAGE = 0
-    UNDERGROUND_GARAGE = 1
-    EXTERNAL_PARKING_SPACE = 2
-    DETACHED_GARAGE = 3
-    BELONGING_GARAGE = 4
-
-    GARAGE_TYPES = (
-        (NO_GARAGE, 'No garage'),
-        (UNDERGROUND_GARAGE, 'Underground'),
-        (EXTERNAL_PARKING_SPACE, 'External'),
-        (DETACHED_GARAGE, 'Detached'),
-        (BELONGING_GARAGE, 'Belonging')
-    )
-
-    type = models.IntegerField(verbose_name='Garage type', choices=GARAGE_TYPES)
-    parking_number = models.PositiveSmallIntegerField(verbose_name='Parking space number')
-
-    def __str__(self):
-        return f'{self.realestate.plot.address.city}, ({self.realestate.plot.address.street}' \
-               f' {self.realestate.plot.address.street_number}, space number: {self.parking_number})'
-
-
 class Realestate(models.Model):
     REALESTATE_MULTI_FAMILY = 0
     REALESTATE_SINGLE_FAMILY = 1
@@ -75,7 +52,6 @@ class Realestate(models.Model):
     area = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Total realestete area', null=True,
                                blank=True)
     number_floors = models.PositiveSmallIntegerField(verbose_name='Number floors')
-    garage = models.ForeignKey(Garage, on_delete=models.CASCADE, verbose_name='Garage')
     year_built = models.DateField(verbose_name='Year built')
 
     def __str__(self):
@@ -88,24 +64,25 @@ class Flat(models.Model):
     LOGGIA = 1
     TERRACE = 2
 
-    BALCONY_TYPES = (
+    BALCONY_TYPES = [
         (BALCONY, 'Balcony'),
         (LOGGIA, 'Loggia'),
         (TERRACE, 'Terrace')
-    )
+    ]
 
     KITCHEN_OPEN = 0
     KITCHEN_CLOSED = 1
 
-    KITCHEN = (
+    KITCHEN = [
         (KITCHEN_OPEN, 'Open'),
         (KITCHEN_CLOSED, 'Closed')
-    )
+    ]
 
     realestate = models.ForeignKey(Realestate, on_delete=models.CASCADE, verbose_name='Realestate')
 
+    area = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Total realestete area', default='0')
     floor_number = models.PositiveSmallIntegerField(verbose_name='Floor number')
-    apartment_number = models.CharField(max_length=10, verbose_name='Apartment number')
+    apartment_number = models.CharField(max_length=10, verbose_name='Apartment number', null=True, blank=True)
     rooms = models.PositiveSmallIntegerField(verbose_name='Number of rooms')
     kitchen_type = models.IntegerField(verbose_name='Kitchen type', choices=KITCHEN)
     bathroom = models.PositiveSmallIntegerField(verbose_name='Number of bathroom')
@@ -116,7 +93,28 @@ class Flat(models.Model):
                f' {self.realestate.plot.address.street_number}/{self.apartment_number})'
 
 
+class Garage(models.Model):
+    UNDERGROUND_GARAGE = 0
+    EXTERNAL_PARKING_SPACE = 1
+    DETACHED_GARAGE = 2
+    ATTACHED_T0_THE_BUILDING = 3
 
+    GARAGE_TYPES = (
+        (UNDERGROUND_GARAGE, 'Underground'),
+        (EXTERNAL_PARKING_SPACE, 'External space'),
+        (DETACHED_GARAGE, 'Detached'),
+        (ATTACHED_T0_THE_BUILDING, 'Attached')
+
+    )
+
+    realestate = models.ForeignKey(Realestate, on_delete=models.CASCADE, verbose_name='Realestate')
+
+    type = models.IntegerField(verbose_name='Garage type', choices=GARAGE_TYPES)
+    parking_number = models.PositiveSmallIntegerField(verbose_name='Parking space number')
+
+    def __str__(self):
+        return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, {self.realestate.plot.address.street}'\
+               f' {self.realestate.plot.address.street_number}, space number: {self.parking_number})'
 
 
 class Offer(models.Model):
@@ -134,10 +132,10 @@ class Offer(models.Model):
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey()
+    content_object = GenericForeignKey()  # powiązuje content_type i object_id
 
     def __str__(self):
-        return self.get_type_display()
+        return f'{self.get_type_display()}, ({self.content_type})'
 
 
 
