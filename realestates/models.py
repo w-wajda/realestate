@@ -1,6 +1,8 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Q
+from gfklookupwidget.fields import GfkLookupField
 
 
 class Address(models.Model):
@@ -113,7 +115,7 @@ class Garage(models.Model):
     parking_number = models.PositiveSmallIntegerField(verbose_name='Parking space number')
 
     def __str__(self):
-        return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, {self.realestate.plot.address.street}'\
+        return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, {self.realestate.plot.address.street}' \
                f' {self.realestate.plot.address.street_number}, space number: {self.parking_number})'
 
 
@@ -130,17 +132,13 @@ class Offer(models.Model):
     price = models.PositiveSmallIntegerField(verbose_name='Price')
     description = models.TextField(verbose_name='Description')
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey()  # powiązuje content_type i object_id
+    limit = Q(app_label='realestates', model='plot') | Q(app_label='realestates', model='realestate') | \
+        Q(app_label='realestates', model='flat') | Q(app_label='realestates', model='garage')  # wybór limitów
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,
+                                     limit_choices_to=limit)  # okreslenie limitu opcji
+    # object_id = models.PositiveIntegerField()
+    object_id = GfkLookupField('content_type')  # lupka do wyboru obiektu
+    content_object = GenericForeignKey('content_type', 'object_id')  # powiązuje content_type i object_id
 
     def __str__(self):
         return f'{self.get_type_display()}, ({self.content_type})'
-
-
-
-
-
-
-
-
