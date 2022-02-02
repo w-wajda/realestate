@@ -2,3 +2,10 @@
 __pycache__/
 db.sqlite3
 venv/
+media/
+static/
+.env
+celerybeat-schedule
+/logs
+
+

@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='realestate_type',
             field=models.IntegerField(choices=[(0, 'Multi-family house'), (1, 'Single-family house')], null=True, verbose_name='Realestete type'),
         ),

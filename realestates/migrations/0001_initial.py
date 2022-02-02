@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('garage_type', models.IntegerField(choices=[(0, 'No'), (1, 'Underground'), (2, 'External'), (3, 'Detached'), (4, 'Belonging')], null=True, verbose_name='Garage type')),
                 ('garage_price', models.PositiveSmallIntegerField(default=0, null=True, verbose_name='Garage price')),
-                ('realestate', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='realestates.realestate')),
+                ('base', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='realestates.base')),
             ],
         ),
         migrations.CreateModel(
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
                 ('flat_price', models.PositiveSmallIntegerField(default=0, null=True, verbose_name='Flat price')),
                 ('flat_area', models.DecimalField(decimal_places=2, max_digits=5, null=True, verbose_name='Flat area')),
                 ('floor_number', models.PositiveSmallIntegerField(blank=True, default=0, null=True, verbose_name='Floor number')),
-                ('realestate', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='realestates.realestate', verbose_name='Realestate')),
+                ('base', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='realestates.base', verbose_name='Realestate')),
             ],
         ),
     ]
