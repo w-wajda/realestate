@@ -19,27 +19,27 @@ class Migration(migrations.Migration):
             name='flat_price',
         ),
         migrations.AddField(
-            model_name='realestate',
+            model_name='base',
             name='bathroom',
             field=models.PositiveSmallIntegerField(blank=True, default=0, null=True, verbose_name='Bathroom'),
         ),
         migrations.AddField(
-            model_name='realestate',
+            model_name='base',
             name='description',
             field=models.TextField(blank=True, default='', null=True, verbose_name='Description'),
         ),
         migrations.AddField(
-            model_name='realestate',
+            model_name='base',
             name='kitchen',
             field=models.IntegerField(blank=True, choices=[(0, 'Kitchen open'), (1, 'Kitchen closed')], null=True, verbose_name='Kitchen'),
         ),
         migrations.AddField(
-            model_name='realestate',
+            model_name='base',
             name='rooms',
             field=models.PositiveSmallIntegerField(blank=True, default=0, null=True, verbose_name='Rooms'),
         ),
         migrations.AddField(
-            model_name='realestate',
+            model_name='base',
             name='year_built',
             field=models.DateField(blank=True, null=True, verbose_name='Year built'),
         ),

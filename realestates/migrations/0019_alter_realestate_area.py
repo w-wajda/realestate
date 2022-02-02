@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='area',
             field=models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Realestete area'),
         ),

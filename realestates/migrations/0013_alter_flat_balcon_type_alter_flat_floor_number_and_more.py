@@ -23,8 +23,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='flat',
-            name='realestate',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='realestates.realestate', verbose_name='Realestate'),
+            name='base',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='realestates.base', verbose_name='Realestate'),
         ),
         migrations.AlterField(
             model_name='garage',
@@ -38,8 +38,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='garage',
-            name='realestate',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='realestates.realestate', verbose_name='Realestate'),
+            name='base',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='realestates.base', verbose_name='Realestate'),
         ),
         migrations.AlterField(
             model_name='plot',
@@ -52,52 +52,52 @@ class Migration(migrations.Migration):
             field=models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Total area'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='bathroom',
             field=models.PositiveSmallIntegerField(default=0, verbose_name='Bathroom'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='description',
             field=models.TextField(blank=True, null=True, verbose_name='Description'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='kitchen',
             field=models.IntegerField(choices=[(0, 'Kitchen open'), (1, 'Kitchen closed')], verbose_name='Kitchen'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='number_floors',
             field=models.PositiveSmallIntegerField(default=0, verbose_name='Number floors'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='plot',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='realestates.plot', verbose_name='Plot'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='realestate_area',
             field=models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Realestete area'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='realestate_price',
             field=models.PositiveSmallIntegerField(default=0, verbose_name='Realestete price'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='realestate_type',
             field=models.IntegerField(choices=[(0, 'Multi-family house'), (1, 'Single-family house')], verbose_name='Realestete type'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='rooms',
             field=models.PositiveSmallIntegerField(default=0, verbose_name='Rooms'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='year_built',
             field=models.DateField(verbose_name='Year built'),
         ),

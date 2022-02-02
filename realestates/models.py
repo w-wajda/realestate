@@ -143,7 +143,7 @@ class Offer(models.Model):
     price = models.PositiveSmallIntegerField(verbose_name='Price')
     description = models.TextField(verbose_name='Description')
 
-    limit = Q(app_label='realestates', model='plot') | Q(app_label='realestates', model='realestate') | \
+    limit = Q(app_label='realestates', model='plot') | Q(app_label='realestates', model='base') | \
         Q(app_label='realestates', model='flat') | Q(app_label='realestates', model='garage')  # wybór limitów
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,
                                      limit_choices_to=limit)  # okreslenie limitu opcji

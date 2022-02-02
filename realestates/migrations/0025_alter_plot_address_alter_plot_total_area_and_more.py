@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             field=models.IntegerField(choices=[(0, 'Building plot'), (1, 'Agricultural plot'), (2, 'Investment plot')], verbose_name='Plot type'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='area',
             field=models.DecimalField(blank=True, decimal_places=2, max_digits=7, null=True, verbose_name='Total realestete area'),
         ),

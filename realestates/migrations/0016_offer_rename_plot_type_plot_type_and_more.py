@@ -25,17 +25,17 @@ class Migration(migrations.Migration):
             new_name='type',
         ),
         migrations.RenameField(
-            model_name='realestate',
+            model_name='base',
             old_name='realestate_area',
             new_name='area',
         ),
         migrations.RenameField(
-            model_name='realestate',
+            model_name='base',
             old_name='kitchen',
             new_name='kitchen_type',
         ),
         migrations.RenameField(
-            model_name='realestate',
+            model_name='base',
             old_name='realestate_type',
             new_name='type',
         ),
@@ -56,11 +56,11 @@ class Migration(migrations.Migration):
             name='plot_price',
         ),
         migrations.RemoveField(
-            model_name='realestate',
+            model_name='base',
             name='description',
         ),
         migrations.RemoveField(
-            model_name='realestate',
+            model_name='base',
             name='realestate_price',
         ),
         migrations.AddField(
@@ -80,17 +80,17 @@ class Migration(migrations.Migration):
             field=models.PositiveSmallIntegerField(verbose_name='Floor number'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='bathroom',
             field=models.PositiveSmallIntegerField(verbose_name='Bathroom'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='number_floors',
             field=models.PositiveSmallIntegerField(verbose_name='Number floors'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='rooms',
             field=models.PositiveSmallIntegerField(verbose_name='Rooms'),
         ),

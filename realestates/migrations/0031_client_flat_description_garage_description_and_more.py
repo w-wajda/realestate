@@ -38,14 +38,14 @@ class Migration(migrations.Migration):
             field=models.TextField(blank=True, null=True, verbose_name='Description'),
         ),
         migrations.AddField(
-            model_name='realestate',
+            model_name='base',
             name='description',
             field=models.TextField(blank=True, null=True, verbose_name='Description'),
         ),
         migrations.AlterField(
             model_name='offer',
             name='content_type',
-            field=models.ForeignKey(limit_choices_to=models.Q(models.Q(('app_label', 'realestates'), ('model', 'plot')), models.Q(('app_label', 'realestates'), ('model', 'realestate')), models.Q(('app_label', 'realestates'), ('model', 'flat')), models.Q(('app_label', 'realestates'), ('model', 'garage')), _connector='OR'), on_delete=django.db.models.deletion.CASCADE, to='contenttypes.contenttype'),
+            field=models.ForeignKey(limit_choices_to=models.Q(models.Q(('app_label', 'realestates'), ('model', 'plot')), models.Q(('app_label', 'realestates'), ('model', 'base')), models.Q(('app_label', 'realestates'), ('model', 'flat')), models.Q(('app_label', 'realestates'), ('model', 'garage')), _connector='OR'), on_delete=django.db.models.deletion.CASCADE, to='contenttypes.contenttype'),
         ),
         migrations.AddField(
             model_name='offer',

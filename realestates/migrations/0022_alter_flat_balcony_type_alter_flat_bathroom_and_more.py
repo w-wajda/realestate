@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
             field=models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Total plot area'),
         ),
         migrations.AlterField(
-            model_name='realestate',
+            model_name='base',
             name='area',
             field=models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Total realestete area'),
         ),

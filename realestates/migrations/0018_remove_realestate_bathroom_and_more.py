@@ -11,15 +11,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name='realestate',
+            model_name='base',
             name='bathroom',
         ),
         migrations.RemoveField(
-            model_name='realestate',
+            model_name='base',
             name='kitchen_type',
         ),
         migrations.RemoveField(
-            model_name='realestate',
+            model_name='base',
             name='rooms',
         ),
         migrations.AddField(
