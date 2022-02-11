@@ -12,6 +12,7 @@ from realestates.models import (
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
+    list_display = ('address', )
     list_filter = ('city', )
     search_fields = ['city', 'street']
     fieldsets = (
@@ -19,6 +20,10 @@ class AddressAdmin(admin.ModelAdmin):
             'fields': (('street', 'street_number'), ('zip_code', 'city')),
         }),
     )
+
+    @admin.display(description='Address')
+    def address(self, obj):
+        return "%s, %s %s" % (obj.city, obj.street, obj.street_number)
 
 
 @admin.register(Client)
@@ -57,12 +62,23 @@ class PlotAdmin(admin.ModelAdmin):
     )
 
 
-
-
-
 @admin.register(Realestate)
 class RealestateAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
+    list_display = ('type', 'plot', 'year_built')
+    list_filter = ('type', )
+    fieldsets = (
+        ('Basic information', {
+            'fields': (
+                ('plot', ),
+                ('type', 'number_floors'),
+                ('year_built',)
+            )
+        }),
+        ('Additional information', {
+            'fields': ('area', 'description', )
+        })
+    )
 
 
 @admin.register(Flat)
