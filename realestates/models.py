@@ -46,7 +46,6 @@ class Plot(models.Model):
     type = models.IntegerField(verbose_name='Plot type', choices=PLOT_TYPES)
     total_area = models.DecimalField(verbose_name='Total plot area', max_digits=7, decimal_places=2, null=True,
                                      blank=True)
-
     address = models.OneToOneField(Address, on_delete=models.CASCADE, verbose_name='Plot address')
     description = models.TextField(verbose_name='Description', null=True, blank=True)
 
@@ -67,7 +66,6 @@ class Realestate(models.Model):
     )
 
     plot = models.ForeignKey(Plot, on_delete=models.CASCADE, verbose_name='Plot')
-
     type = models.IntegerField(verbose_name='Realestete type', choices=REALESTATE_TYPES)
     area = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Total realestete area', null=True,
                                blank=True)
@@ -105,7 +103,6 @@ class Flat(models.Model):
     ]
 
     realestate = models.ForeignKey(Realestate, on_delete=models.CASCADE, verbose_name='Realestate')
-
     area = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Total realestete area', default='0')
     floor_number = models.PositiveSmallIntegerField(verbose_name='Floor number')
     apartment_number = models.CharField(max_length=10, verbose_name='Apartment number', null=True, blank=True)
@@ -163,14 +160,12 @@ class Offer(models.Model):
     type = models.IntegerField(verbose_name='Offer type', choices=OFFER_TYPES)
     price = models.PositiveSmallIntegerField(verbose_name='Price')
     description = models.TextField(verbose_name='Description')
-
     limit = Q(app_label='realestates', model='plot') | Q(app_label='realestates', model='base') | \
         Q(app_label='realestates', model='flat') | Q(app_label='realestates', model='garage')  # wybór limitów
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,
                                      limit_choices_to=limit)  # okreslenie limitu opcji
     object_id = GfkLookupField('content_type')  # lupka do wyboru obiektu
     content_object = GenericForeignKey('content_type', 'object_id')  # powiązuje content_type i object_id
-
     client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name='Client', null=True, blank=True)
 
     def __str__(self):
