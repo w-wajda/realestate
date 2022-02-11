@@ -87,11 +87,13 @@ class Flat(models.Model):
     BALCONY = 0
     LOGGIA = 1
     TERRACE = 2
+    NO_BALCONY = 3
 
     BALCONY_TYPES = [
         (BALCONY, 'Balcony'),
         (LOGGIA, 'Loggia'),
-        (TERRACE, 'Terrace')
+        (TERRACE, 'Terrace'),
+        (NO_BALCONY, 'No balcony')
     ]
 
     KITCHEN_OPEN = 0
