@@ -11,6 +11,12 @@ class Client(models.Model):
     email = models.EmailField(verbose_name='Email')
     mobile_number = models.CharField(verbose_name='Mobile number', max_length=20, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.name} {self.surname}'
+
+    class Meta:
+        verbose_name = 'Client'
+
 
 class Address(models.Model):
     street = models.CharField(verbose_name='Street', max_length=100)
@@ -22,7 +28,8 @@ class Address(models.Model):
         return f'{self.city}, ({self.street} {self.street_number})'
 
     class Meta:
-        verbose_name_plural = 'addresses'
+        verbose_name = 'Address'
+        verbose_name_plural = 'Addresses'
 
 
 class Plot(models.Model):
@@ -46,6 +53,9 @@ class Plot(models.Model):
     def __str__(self):
         return f'{self.get_type_display()}, ({self.address.city}, {self.address.street} {self.address.street_number})'
 
+    class Meta:
+        verbose_name = 'Plot'
+
 
 class Realestate(models.Model):
     REALESTATE_MULTI_FAMILY = 0
@@ -68,6 +78,9 @@ class Realestate(models.Model):
     def __str__(self):
         return f'{self.get_type_display()}, ({self.plot.address.city}, {self.plot.address.street}' \
                f' {self.plot.address.street_number})'
+
+    class Meta:
+        verbose_name = 'Realestate'
 
 
 class Flat(models.Model):
@@ -104,6 +117,9 @@ class Flat(models.Model):
         return f'{self.realestate.plot.address.city}, ({self.realestate.plot.address.street}' \
                f' {self.realestate.plot.address.street_number}/{self.apartment_number})'
 
+    class Meta:
+        verbose_name = 'Flat'
+
 
 class Garage(models.Model):
     UNDERGROUND_GARAGE = 0
@@ -129,6 +145,9 @@ class Garage(models.Model):
         return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, {self.realestate.plot.address.street}' \
                f' {self.realestate.plot.address.street_number}, space number: {self.parking_number})'
 
+    class Meta:
+        verbose_name = 'Garage'
+
 
 class Offer(models.Model):
     SALE = 0
@@ -147,7 +166,6 @@ class Offer(models.Model):
         Q(app_label='realestates', model='flat') | Q(app_label='realestates', model='garage')  # wybór limitów
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,
                                      limit_choices_to=limit)  # okreslenie limitu opcji
-    # object_id = models.PositiveIntegerField()
     object_id = GfkLookupField('content_type')  # lupka do wyboru obiektu
     content_object = GenericForeignKey('content_type', 'object_id')  # powiązuje content_type i object_id
 
@@ -155,3 +173,6 @@ class Offer(models.Model):
 
     def __str__(self):
         return f'{self.get_type_display()}, ({self.content_type})'
+
+    class Meta:
+        verbose_name = 'Offer'
