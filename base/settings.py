@@ -28,9 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_extensions',
+
     'rest_framework',
 
-    'django_extensions',
+    'rest_framework.authtoken',
 
     'realestates',
 ]
