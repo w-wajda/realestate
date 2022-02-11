@@ -1,12 +1,74 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
+
 from rest_framework import viewsets
-from rest_framework import permissions
-from realestates.serializers import UserSerializer
+
+from realestates.serializers import (
+    UserSerializer,
+    ClientSerializer,
+    AddressSerializer,
+    PlotSerializer,
+    RealestateSerializer,
+    FlatSerializer,
+    GarageSerializer,
+    OfferSerializer
+)
+
+from realestates.models import (
+    Client,
+    Address,
+    Plot,
+    Realestate,
+    Flat,
+    Garage,
+    Offer
+)
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+
+class AddressViewSet(viewsets.ModelViewSet):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+
+class PlotViewSet(viewsets.ModelViewSet):
+    queryset = Plot.objects.all()
+    serializer_class = PlotSerializer
+
+
+class RealestateViewSet(viewsets.ModelViewSet):
+    queryset = Realestate.objects.all()
+    serializer_class = RealestateSerializer
+
+
+class FlatViewSet(viewsets.ModelViewSet):
+    queryset = Flat.objects.all()
+    serializer_class = FlatSerializer
+
+
+class GarageViewSet(viewsets.ModelViewSet):
+    queryset = Garage.objects.all()
+    serializer_class = GarageSerializer
+
+
+class OfferViewSet(viewsets.ModelViewSet):
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
+
+
+
+
+
+
+
+
 
 
