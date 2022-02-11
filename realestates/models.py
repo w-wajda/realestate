@@ -25,7 +25,7 @@ class Address(models.Model):
     city = models.CharField(verbose_name='City', max_length=100)
 
     def __str__(self):
-        return f'{self.city}, ({self.street} {self.street_number})'
+        return self.city
 
     class Meta:
         verbose_name = 'Address'
