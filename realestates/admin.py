@@ -141,8 +141,25 @@ class GarageAdmin(admin.ModelAdmin):
                               obj.realestate.plot.address.street_number)
 
 
-
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
+    list_display = ('type', 'content_type', 'object_id', 'price', 'client')
+    list_filter = ('type', 'content_type')
+
+    fieldsets = (
+        ('Basic information', {
+            'fields': (
+                ('type', 'content_type'),
+                ('object_id', 'price'),
+            )
+        }),
+        ('Additional information', {
+            'fields': (
+                ('description',),
+                ('client', )
+            )
+        })
+    )
+
 
