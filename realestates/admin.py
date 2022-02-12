@@ -76,7 +76,7 @@ class RealestateAdmin(admin.ModelAdmin):
             )
         }),
         ('Additional information', {
-            'fields': ('area', 'description', )
+            'fields': ('area', 'description')
         })
     )
 
@@ -86,7 +86,7 @@ class FlatAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
     list_display = ('realestate_type', 'realestate_address', 'area', 'rooms')
     list_filter = ('rooms', 'kitchen_type', 'balcony_type')
-    search_fields = ['realestate__plot', ]
+    search_fields = ['realestate__plot']
 
     fieldsets = (
         ('Basic information', {
@@ -111,7 +111,7 @@ class FlatAdmin(admin.ModelAdmin):
     def realestate_type(self, obj):
         return "%s" % (obj.realestate.get_type_display(), )
 
-    @admin.display(description='Realestate address')
+    @admin.display(description='Flat address')
     def realestate_address(self, obj):
         return "%s, %s %s" % (obj.realestate.plot.address.city, obj.realestate.plot.address.street,
                               obj.realestate.plot.address.street_number)
@@ -120,6 +120,26 @@ class FlatAdmin(admin.ModelAdmin):
 @admin.register(Garage)
 class GarageAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
+    list_display = ('type', 'garage_address')
+    list_filter = ('type', )
+    search_fields = ['type']
+    fieldsets = (
+        ('Basic information', {
+            'fields': (
+                ('realestate', ),
+                ('type', 'parking_number'),
+            )
+        }),
+        ('Additional information', {
+            'fields': ('description',)
+        })
+    )
+
+    @admin.display(description='Garage address')
+    def garage_address(self, obj):
+        return "%s, %s %s" % (obj.realestate.plot.address.city, obj.realestate.plot.address.street,
+                              obj.realestate.plot.address.street_number)
+
 
 
 @admin.register(Offer)
