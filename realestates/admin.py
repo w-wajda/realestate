@@ -84,6 +84,37 @@ class RealestateAdmin(admin.ModelAdmin):
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
+    list_display = ('realestate_type', 'realestate_address', 'area', 'rooms')
+    list_filter = ('rooms', 'kitchen_type', 'balcony_type')
+    search_fields = ['realestate__plot', ]
+
+    fieldsets = (
+        ('Basic information', {
+            'fields': (
+                ('realestate',),
+                ('area', 'floor_number', 'rooms'),
+                ('apartment_number', )
+            )
+        }),
+        ('Apartment details', {
+            'fields': (
+                ('kitchen_type', 'balcony_type'),
+                ('bathroom', )
+            )
+        }),
+        ('Additional information', {
+            'fields': ('description',)
+        })
+    )
+
+    @admin.display(description='Realestate type')
+    def realestate_type(self, obj):
+        return "%s" % (obj.realestate.get_type_display(), )
+
+    @admin.display(description='Realestate address')
+    def realestate_address(self, obj):
+        return "%s, %s %s" % (obj.realestate.plot.address.city, obj.realestate.plot.address.street,
+                              obj.realestate.plot.address.street_number)
 
 
 @admin.register(Garage)
