@@ -21,11 +21,11 @@ class Client(models.Model):
 class Address(models.Model):
     street = models.CharField(verbose_name='Street', max_length=100)
     street_number = models.CharField(verbose_name='Street number', max_length=10)
-    zip_code = models.CharField(verbose_name='ZIP Code', max_length=10)
+    zip_code = models.CharField(verbose_name='ZIP Code', max_length=10, null=True, blank=True)
     city = models.CharField(verbose_name='City', max_length=100)
 
     def __str__(self):
-        return f'{self.city}, ({self.street} {self.street_number})'
+        return f'{self.city}, {self.street} {self.street_number}'
 
     class Meta:
         verbose_name = 'Address'
@@ -50,7 +50,7 @@ class Plot(models.Model):
     description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.get_type_display()}, ({self.address.city}, {self.address.street} {self.address.street_number})'
+        return f'{self.address.city}, {self.address.street} {self.address.street_number}'
 
     class Meta:
         verbose_name = 'Plot'
@@ -65,7 +65,7 @@ class Realestate(models.Model):
         (REALESTATE_SINGLE_FAMILY, 'Single-family house')
     )
 
-    plot = models.ForeignKey(Plot, on_delete=models.CASCADE, verbose_name='Plot')
+    plot = models.ForeignKey(Plot, on_delete=models.CASCADE, verbose_name='Plot address')
     type = models.IntegerField(verbose_name='Realestete type', choices=REALESTATE_TYPES)
     area = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Total realestete area', null=True,
                                blank=True)
@@ -113,8 +113,8 @@ class Flat(models.Model):
     description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.realestate.plot.address.city}, ({self.realestate.plot.address.street}' \
-               f' {self.realestate.plot.address.street_number}/{self.apartment_number})'
+        return f'{self.realestate.plot.address.city}, {self.realestate.plot.address.street}' \
+               f' {self.realestate.plot.address.street_number}/{self.apartment_number}'
 
     class Meta:
         verbose_name = 'Flat'
@@ -135,7 +135,6 @@ class Garage(models.Model):
     )
 
     realestate = models.ForeignKey(Realestate, on_delete=models.CASCADE, verbose_name='Realestate')
-
     type = models.IntegerField(verbose_name='Garage type', choices=GARAGE_TYPES)
     parking_number = models.PositiveSmallIntegerField(verbose_name='Parking space number')
     description = models.TextField(verbose_name='Description', null=True, blank=True)
