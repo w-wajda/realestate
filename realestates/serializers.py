@@ -39,12 +39,6 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = ['name', 'surname', 'email', 'mobile_number']
 
 
-class ShortAddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = ['street', 'street_number', 'city']
-
-
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
@@ -52,11 +46,20 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class PlotSerializer(serializers.ModelSerializer):
-    # address = ShortAddressSerializer(many=False)
+    address = AddressSerializer(many=False)
 
     class Meta:
         model = Plot
         fields = ['type', 'total_area', 'address', 'description']
+
+    def create(self, validated_data):
+        address = validated_data.pop('address')
+
+        if address:
+            address = Address.objects.create(**address)
+
+        plot = Plot.objects.create(address=address, **validated_data)
+        return plot
 
 
 class RealestateSerializer(serializers.ModelSerializer):
