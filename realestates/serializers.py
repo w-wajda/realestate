@@ -46,7 +46,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class PlotSerializer(serializers.ModelSerializer):
-    address = AddressSerializer(many=False)
+    address = AddressSerializer(many=False)  # OneToOne and many=False
 
     class Meta:
         model = Plot
@@ -60,6 +60,23 @@ class PlotSerializer(serializers.ModelSerializer):
 
         plot = Plot.objects.create(address=address, **validated_data)
         return plot
+
+    def update(self, instance: Plot, validated_data):
+        instance.type = validated_data.get('type', instance.type)  #zwraca nowy "type", inaczej zostaje taki sam instance.type
+        instance.total_area = validated_data.get('total_area', instance.total_area)
+        instance.description = validated_data.get('description', instance.description)
+
+        if 'address' in validated_data:
+            address = validated_data.get('address')
+            address, created = Address.objects.get_or_create(**address)
+
+            if created:
+                instance.address.delete()
+
+            instance.address = address
+
+        instance.save()
+        return instance
 
 
 class RealestateSerializer(serializers.ModelSerializer):
