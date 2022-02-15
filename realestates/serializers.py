@@ -46,7 +46,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class PlotSerializer(serializers.ModelSerializer):
-    address = AddressSerializer(many=False)  # OneToOne and many=False
+    address = AddressSerializer(many=False)  # OneToOne
 
     class Meta:
         model = Plot
@@ -61,8 +61,23 @@ class PlotSerializer(serializers.ModelSerializer):
         plot = Plot.objects.create(address=address, **validated_data)
         return plot
 
+
+class AddressUpdateSerializer(serializers.ModelSerializer):  # dodany validators, ze względu na unique in model
+    class Meta:
+        model = Address
+        fields = ['street', 'street_number', 'zip_code', 'city']
+        validators = []
+
+
+class PlotUpdateSerializer(serializers.ModelSerializer):
+    address = AddressUpdateSerializer(many=False)  # OneToOne
+
+    class Meta:
+        model = Plot
+        fields = ['type', 'total_area', 'address', 'description']
+
     def update(self, instance: Plot, validated_data):
-        instance.type = validated_data.get('type', instance.type)  #zwraca nowy "type", inaczej zostaje taki sam instance.type
+        instance.type = validated_data.get('type', instance.type)  # zwraca nowy "type", inaczej ten sam instance.type
         instance.total_area = validated_data.get('total_area', instance.total_area)
         instance.description = validated_data.get('description', instance.description)
 
@@ -80,14 +95,9 @@ class PlotSerializer(serializers.ModelSerializer):
 
 
 class RealestateSerializer(serializers.ModelSerializer):
-    plot = PlotSerializer(many=False)  # OneToOne and many=False
-
     class Meta:
         model = Realestate
         fields = ['plot', 'type', 'number_floors', 'year_built', 'description']
-
-    def create(self, validated_data):
-        pass
 
 
 class FlatSerializer(serializers.ModelSerializer):
