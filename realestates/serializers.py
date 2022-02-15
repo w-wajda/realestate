@@ -36,13 +36,13 @@ class UserSerializer(serializers.ModelSerializer):
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ['id', 'name', 'surname', 'email', 'mobile_number']
+        fields = ['name', 'surname', 'email', 'mobile_number']
 
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ['id', 'street', 'street_number', 'zip_code', 'city']
+        fields = ['street', 'street_number', 'zip_code', 'city']
 
 
 class PlotSerializer(serializers.ModelSerializer):
@@ -50,7 +50,7 @@ class PlotSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plot
-        fields = ['id', 'type', 'total_area', 'address', 'description']
+        fields = ['type', 'total_area', 'address', 'description']
 
     def create(self, validated_data):
         address = validated_data.pop('address')
@@ -65,7 +65,7 @@ class PlotSerializer(serializers.ModelSerializer):
 class AddressUpdateSerializer(serializers.ModelSerializer):  # dodany validators, ze względu na unique in model
     class Meta:
         model = Address
-        fields = ['id', 'street', 'street_number', 'zip_code', 'city']
+        fields = ['street', 'street_number', 'zip_code', 'city']
         validators = []
 
 
@@ -74,7 +74,7 @@ class PlotUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plot
-        fields = ['id', 'type', 'total_area', 'address', 'description']
+        fields = ['type', 'total_area', 'address', 'description']
 
     def update(self, instance: Plot, validated_data):
         instance.type = validated_data.get('type', instance.type)  # zwraca nowy "type", inaczej ten sam instance.type
@@ -95,30 +95,48 @@ class PlotUpdateSerializer(serializers.ModelSerializer):
 
 
 class RealestateSerializer(serializers.ModelSerializer):
-    plot = PlotSerializer(many=False, read_only=True)
-
     class Meta:
         model = Realestate
-        fields = ['id', 'plot', 'type', 'number_floors', 'year_built', 'description']
+        fields = ['plot', 'type', 'number_floors', 'year_built', 'description']
 
 
 class FlatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flat
-        fields = ['id', 'realestate', 'area', 'floor_number', 'apartment_number', 'rooms', 'kitchen_type', 'bathroom',
+        fields = ['realestate', 'area', 'floor_number', 'apartment_number', 'rooms', 'kitchen_type', 'bathroom',
                   'balcony_type', 'description']
 
 
+class ShortRealestateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Realestate
+        fields = ['plot', 'type']
+        extra_kwargs = {
+            'plot': {'validators': []},
+        }
+
+
 class GarageSerializer(serializers.ModelSerializer):
+    realestate = ShortRealestateSerializer(many=False)  # KF
+
     class Meta:
         model = Garage
-        fields = ['id', 'realestate', 'type', 'parking_number', 'description']
+        fields = ['realestate', 'type', 'parking_number', 'description']
+
+    def create(self, validated_data):
+        realestate = validated_data.pop('realestate')
+
+        if realestate:
+            realestate, created = Realestate.objects.get_or_create(**realestate)
+
+        garage = Garage.objects.create(realestate=realestate, **validated_data)
+        return garage
 
 
 class OfferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
-        fields = ['id', 'type', 'price', 'description', 'content_type', 'object_id', 'client']
+        fields = ['type', 'price', 'description', 'content_type', 'object_id', 'client']
 
 
 
