@@ -44,7 +44,7 @@ class PlotViewSet(viewsets.ModelViewSet):
     queryset = Plot.objects.all()
     serializer_class = PlotSerializer
 
-    def get_serializer_class(self):
+    def get_serializer_class(self):  # wybór odpowiedniego serializera dla update, dla pozostałych staandardwoy
         if self.action == 'update':
             return PlotUpdateSerializer
         else:
