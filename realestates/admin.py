@@ -76,7 +76,7 @@ class RealestateAdmin(admin.ModelAdmin):
             )
         }),
         ('Additional information', {
-            'fields': ('area', 'description')
+            'fields': ('description', )
         })
     )
 
