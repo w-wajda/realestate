@@ -80,9 +80,14 @@ class PlotSerializer(serializers.ModelSerializer):
 
 
 class RealestateSerializer(serializers.ModelSerializer):
+    plot = PlotSerializer(many=False)  # OneToOne and many=False
+
     class Meta:
         model = Realestate
-        fields = ['plot', 'type', 'area', 'number_floors', 'year_built', 'description']
+        fields = ['plot', 'type', 'number_floors', 'year_built', 'description']
+
+    def create(self, validated_data):
+        pass
 
 
 class FlatSerializer(serializers.ModelSerializer):
