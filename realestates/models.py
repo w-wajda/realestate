@@ -67,8 +67,6 @@ class Realestate(models.Model):
 
     plot = models.OneToOneField(Plot, on_delete=models.CASCADE, verbose_name='Plot address')
     type = models.IntegerField(verbose_name='Realestete type', choices=REALESTATE_TYPES)
-    area = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Total realestete area', null=True,
-                               blank=True)
     number_floors = models.PositiveSmallIntegerField(verbose_name='Number floors')
     year_built = models.DateField(verbose_name='Year built')
     description = models.TextField(verbose_name='Description', null=True, blank=True)
