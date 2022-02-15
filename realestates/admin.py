@@ -120,7 +120,7 @@ class FlatAdmin(admin.ModelAdmin):
 @admin.register(Garage)
 class GarageAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('type', 'garage_address')
+    list_display = ('type', 'garage_address', 'parking_number')
     list_filter = ('type', )
     search_fields = ['type']
     fieldsets = (
