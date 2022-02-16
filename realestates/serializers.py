@@ -107,7 +107,14 @@ class RealestateSerializer(serializers.ModelSerializer):
         model = Realestate
         fields = ['id', 'plot', 'type', 'number_floors', 'year_built', 'description']
 
+    def create(self, validated_data):
+        plot = validated_data.pop('plot')
 
+        if plot:
+            plot, created = Plot.objects.get_or_create(**plot)
+
+        realestate = Realestate.objects.create(plot=plot, **validated_data)
+        return realestate
 
 
 class RealestateForFlatSerializer(serializers.ModelSerializer):
