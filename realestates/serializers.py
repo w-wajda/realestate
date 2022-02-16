@@ -116,6 +116,24 @@ class RealestateSerializer(serializers.ModelSerializer):
         realestate = Realestate.objects.create(plot=plot, **validated_data)
         return realestate
 
+    def update(self, instance: Realestate, validated_data):
+        instance.type = validated_data.get('type', instance.type)
+        instance.number_floors = validated_data.get('number_floors', instance.number_floors)
+        instance.year_built = validated_data.get('year_built', instance.year_built)
+        instance.description = validated_data.get('description', instance.description)
+
+        if 'plot' in validated_data:
+            plot = validated_data.get('plot')
+            plot, created = Plot.objects.get_or_create(**plot)
+
+            if created:
+                instance.plot.delete()
+
+            instance.plot = plot
+
+        instance.save()
+        return instance
+
 
 class RealestateForFlatSerializer(serializers.ModelSerializer):
     class Meta:
