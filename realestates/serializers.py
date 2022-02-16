@@ -94,10 +94,20 @@ class PlotUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ShortPlotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plot
+        fields = ['id', 'type', 'total_area', 'address']
+
+
 class RealestateSerializer(serializers.ModelSerializer):
+    plot = ShortPlotSerializer(many=False)
+
     class Meta:
         model = Realestate
         fields = ['id', 'plot', 'type', 'number_floors', 'year_built', 'description']
+
+
 
 
 class RealestateForFlatSerializer(serializers.ModelSerializer):
