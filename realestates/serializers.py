@@ -117,7 +117,14 @@ class FlatSerializer(serializers.ModelSerializer):
         fields = ['id', 'realestate', 'area', 'floor_number', 'apartment_number', 'rooms', 'kitchen_type', 'bathroom',
                   'balcony_type', 'description']
 
+    def create(self, validated_data):
+        realestate = validated_data.pop('realestate')
 
+        if realestate:
+            realestate, created = Realestate.objects.get_or_create(**realestate)
+
+        flat = Flat.objects.create(realestate=realestate, **validated_data)
+        return flat
 
 
 class RealestateForGarageSerializer(serializers.ModelSerializer):
