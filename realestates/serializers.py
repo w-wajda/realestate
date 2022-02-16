@@ -130,7 +130,7 @@ class FlatSerializer(serializers.ModelSerializer):
 class RealestateForGarageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Realestate
-        fields = ['it', 'plot', 'type']
+        fields = ['id', 'plot', 'type']
         extra_kwargs = {
             'plot': {'validators': []},
         }
@@ -151,6 +151,23 @@ class GarageSerializer(serializers.ModelSerializer):
 
         garage = Garage.objects.create(realestate=realestate, **validated_data)
         return garage
+
+    def update(self, instance: Garage, validated_data):
+        instance.type = validated_data.get('type', instance.type)
+        instance.parking_number = validated_data.get('parking_number', instance.parking_number)
+        instance.description = validated_data.get('description', instance.description)
+
+        if 'realestate' in validated_data:
+            realestate = validated_data.get('realestate')
+            realestate, created = Realestate.objects.get_or_create(**realestate)
+
+            if created:
+                instance.realestate.delete()
+
+            instance.realestate = realestate
+
+        instance.save()
+        return instance
 
 
 class OfferSerializer(serializers.ModelSerializer):
