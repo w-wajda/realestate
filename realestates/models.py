@@ -16,6 +16,7 @@ class Client(models.Model):
 
     class Meta:
         verbose_name = 'Client'
+        unique_together = ['name', 'surname', 'email']
 
 
 class Address(models.Model):
@@ -139,8 +140,9 @@ class Garage(models.Model):
     description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, {self.realestate.plot.address.street}' \
-               f' {self.realestate.plot.address.street_number}, space number: {self.parking_number})'
+        return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, ' \
+               f'{self.realestate.plot.address.street} {self.realestate.plot.address.street_number}, ' \
+               f'space number: {self.parking_number})'
 
     class Meta:
         verbose_name = 'Garage'
