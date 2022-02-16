@@ -126,6 +126,28 @@ class FlatSerializer(serializers.ModelSerializer):
         flat = Flat.objects.create(realestate=realestate, **validated_data)
         return flat
 
+    def update(self, instance: Flat, validated_data):
+        instance.area = validated_data.get('area', instance.area)
+        instance.floor_number = validated_data.get('floor_number', instance.floor_number)
+        instance.apartment_number = validated_data.get('apartment_number', instance.apartment_number)
+        instance.rooms = validated_data.get('room', instance.rooms)
+        instance.kitchen_type = validated_data.get('kitchen_type', instance.kitchen_type)
+        instance.bathroom = validated_data.get('bathroom', instance.bathroom)
+        instance.balcony_type = validated_data.get('balcony_type', instance.balcony_type)
+        instance.description = validated_data.get('description', instance.description)
+
+        if 'realestate' in validated_data:
+            realestate = validated_data.get('realestate')
+            realestate, created = Realestate.objects.get_or_create(**realestate)
+
+            if created:
+                instance.realestate.delete()
+
+            instance.realestate = realestate
+
+        instance.save()
+        return instance
+
 
 class RealestateForGarageSerializer(serializers.ModelSerializer):
     class Meta:
