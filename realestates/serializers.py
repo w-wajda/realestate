@@ -228,9 +228,23 @@ class GarageSerializer(serializers.ModelSerializer):
 
 
 class OfferSerializer(serializers.ModelSerializer):
+    client = ClientSerializer(many=False)
+
     class Meta:
         model = Offer
-        fields = ['it', 'type', 'price', 'description', 'content_type', 'object_id', 'client']
+        fields = ['id', 'type', 'price', 'description', 'content_type', 'object_id', 'client']
+
+    def create(self, validated_data):
+        client = validated_data.pop('client')
+
+        if client:
+            client = Client.objects.get_or_create(**client)
+
+        offer = Offer.objects.create(client=client, **validated_data)
+        return offer
+
+
+
 
 
 
