@@ -251,6 +251,13 @@ class ClientUpdateSerializer(serializers.ModelSerializer):
         validators = []
 
 
+class OfferUpdateSerializer(serializers.ModelSerializer):
+    client = ClientUpdateSerializer(many=False)
+
+    class Meta:
+        model = Offer
+        fields = ['id', 'type', 'price', 'description', 'content_type', 'object_id', 'client']
+
     def update(self, instance: Offer, validated_data):
         instance.type = validated_data.get('type', instance.type)
         instance.price = validated_data.get('price', instance.price)
