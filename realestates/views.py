@@ -11,7 +11,8 @@ from realestates.serializers import (
     RealestateSerializer,
     FlatSerializer,
     GarageSerializer,
-    OfferSerializer
+    OfferSerializer,
+    OfferUpdateSerializer
 )
 
 from realestates.models import (
@@ -44,7 +45,7 @@ class PlotViewSet(viewsets.ModelViewSet):
     queryset = Plot.objects.all()
     serializer_class = PlotSerializer
 
-    def get_serializer_class(self):  # wybór odpowiedniego serializera dla update, dla pozostałych staandardwoy
+    def get_serializer_class(self):  # wybór odpowiedniego serializera dla update, dla pozostałych standardowy
         if self.action == 'update':
             return PlotUpdateSerializer
         else:
@@ -70,7 +71,11 @@ class OfferViewSet(viewsets.ModelViewSet):
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
 
-
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return OfferUpdateSerializer
+        else:
+            return super().get_serializer_class()
 
 
 
