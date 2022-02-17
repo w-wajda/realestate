@@ -238,10 +238,18 @@ class OfferSerializer(serializers.ModelSerializer):
         client = validated_data.pop('client')
 
         if client:
-            client = Client.objects.create(**client)
+            client = Client.objects.get_or_create(**client)
 
-        offer = Offer.objects.create(client=client, **validated_data)
+        offer = Offer.objects.get_or_create(client=client, **validated_data)
         return offer
+
+
+class ClientUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ['id', 'name', 'surname', 'email', 'mobile_number']
+        validators = []
+
 
     def update(self, instance: Offer, validated_data):
         instance.type = validated_data.get('type', instance.type)
