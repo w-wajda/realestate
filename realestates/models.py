@@ -16,7 +16,7 @@ class Client(models.Model):
 
     class Meta:
         verbose_name = 'Client'
-        unique_together = ['name', 'surname', 'email']
+        unique_together = ['name', 'surname', 'email', 'mobile_number']
 
 
 class Address(models.Model):
