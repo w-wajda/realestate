@@ -238,10 +238,29 @@ class OfferSerializer(serializers.ModelSerializer):
         client = validated_data.pop('client')
 
         if client:
-            client = Client.objects.get_or_create(**client)
+            client = Client.objects.create(**client)
 
         offer = Offer.objects.create(client=client, **validated_data)
         return offer
+
+    def update(self, instance: Offer, validated_data):
+        instance.type = validated_data.get('type', instance.type)
+        instance.price = validated_data.get('price', instance.price)
+        instance.description = validated_data.get('description', instance.description)
+        instance.content_type = validated_data.get('content_type', instance.content_type)
+        instance.object_id = validated_data.get('object_id', instance.object_id)
+
+        if "client" in validated_data:
+            client = validated_data.get('client')
+            client, created = Client.objects.get_or_create(**client)
+
+            if created:
+                instance.client.delete()
+
+            instance.client = client
+
+        instance.save()
+        return instance
 
 
 
