@@ -56,9 +56,6 @@ class PlotAdmin(admin.ModelAdmin):
         ('Basic information', {
             'fields': (('address', ), ('type_plot', 'total_area_plot'))
         }),
-        ('Additional information', {
-            'fields': ('description', )
-        })
     )
 
 
