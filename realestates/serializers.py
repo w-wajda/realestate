@@ -50,7 +50,7 @@ class PlotSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plot
-        fields = ['id', 'type_plot', 'total_area_plot', 'address', 'description']
+        fields = ['id', 'type_plot', 'total_area_plot', 'address']
 
     def create(self, validated_data):
         address = validated_data.pop('address')
@@ -74,12 +74,11 @@ class PlotUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plot
-        fields = ['id', 'type_plot', 'total_area_plot', 'address', 'description']
+        fields = ['id', 'type_plot', 'total_area_plot', 'address']
 
     def update(self, instance: Plot, validated_data):
         instance.type_plot = validated_data.get('type_plot', instance.type_plot)  # zwraca nowy "type", inaczej ten sam instance.type
         instance.total_area_plot = validated_data.get('total_area_plot', instance.total_area_plot)
-        instance.description = validated_data.get('description', instance.description)
 
         if 'address' in validated_data:
             address = validated_data.get('address')
