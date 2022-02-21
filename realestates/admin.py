@@ -49,12 +49,12 @@ class ClientAdmin(admin.ModelAdmin):
 @admin.register(Plot)
 class PlotAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('address', 'type', 'total_area')
-    list_filter = ('address__city', 'type')
-    search_fields = ['address__city', 'type']
+    list_display = ('address', 'type_plot', 'total_area_plot')
+    list_filter = ('address__city', 'type_plot')
+    search_fields = ['address__city', 'type_plot']
     fieldsets = (
         ('Basic information', {
-            'fields': (('address', ), ('type', 'total_area'))
+            'fields': (('address', ), ('type_plot', 'total_area_plot'))
         }),
         ('Additional information', {
             'fields': ('description', )
