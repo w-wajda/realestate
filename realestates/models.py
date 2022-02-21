@@ -45,9 +45,9 @@ class Plot(models.Model):
         (INVESTMENT_PLOT, 'Investment plot'),
     )
 
-    type = models.IntegerField(verbose_name='Plot type', choices=PLOT_TYPES)
-    total_area = models.DecimalField(verbose_name='Total plot area', max_digits=7, decimal_places=2, null=True,
-                                     blank=True)
+    type_plot = models.IntegerField(verbose_name='Plot type', choices=PLOT_TYPES)
+    total_area_plot = models.DecimalField(verbose_name='Total plot area', max_digits=7, decimal_places=2, null=True,
+                                          blank=True)
     address = models.OneToOneField(Address, on_delete=models.CASCADE, verbose_name='Plot address')
     description = models.TextField(verbose_name='Description', null=True, blank=True)
 
