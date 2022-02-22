@@ -100,7 +100,7 @@ class FlatAdmin(admin.ModelAdmin):
 
     @admin.display(description='Realestate type')
     def realestate_type(self, obj):
-        return "%s" % (obj.realestate.get_type_display(), )
+        return "%s" % (obj.realestate.get_type_realestate_display(), )
 
     @admin.display(description='Flat address')
     def realestate_address(self, obj):
