@@ -45,6 +45,13 @@ class AddressSerializer(serializers.ModelSerializer):
         fields = ['id', 'street', 'street_number', 'zip_code', 'city']
 
 
+class AddressUpdateSerializer(serializers.ModelSerializer):  # dodany validators, ze względu na unique in model
+    class Meta:
+        model = Address
+        fields = ['id', 'street', 'street_number', 'zip_code', 'city']
+        validators = []
+
+
 class PlotSerializer(serializers.ModelSerializer):
     address = AddressSerializer(many=False)  # OneToOne
 
@@ -60,13 +67,6 @@ class PlotSerializer(serializers.ModelSerializer):
 
         plot = Plot.objects.create(address=address, **validated_data)
         return plot
-
-
-class AddressUpdateSerializer(serializers.ModelSerializer):  # dodany validators, ze względu na unique in model
-    class Meta:
-        model = Address
-        fields = ['id', 'street', 'street_number', 'zip_code', 'city']
-        validators = []
 
 
 class PlotUpdateSerializer(serializers.ModelSerializer):
@@ -109,7 +109,7 @@ class ShortPlotUpdateSerializer(serializers.ModelSerializer):
 
 
 class RealestateSerializer(serializers.ModelSerializer):
-    plot = PlotSerializer(many=False)
+    plot = ShortPlotSerializer(many=False)
 
     class Meta:
         model = Realestate
@@ -126,7 +126,11 @@ class RealestateSerializer(serializers.ModelSerializer):
 
 
 class RealestateUpdateSerializer(serializers.ModelSerializer):
-    plot = ShortPlotSerializer(many=False)
+    plot = ShortPlotUpdateSerializer(many=False)
+
+    class Meta:
+        model = Realestate
+        fields = ['id', 'plot', 'type_realestate', 'number_floors', 'year_built']
 
     def update(self, instance: Realestate, validated_data):
         instance.type_realestate = validated_data.get('type_realestate', instance.type_realestate)
