@@ -96,7 +96,7 @@ class PlotUpdateSerializer(serializers.ModelSerializer):
 class ShortPlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plot
-        fields = ['id', 'type', 'total_area', 'address']
+        fields = ['id', 'type_plot', 'total_area_plot', 'address']
         extra_kwargs = {
             'address': {'validators': []},
         }
@@ -107,7 +107,7 @@ class RealestateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Realestate
-        fields = ['id', 'plot', 'type', 'number_floors', 'year_built', 'description']
+        fields = ['id', 'plot', 'type_realestate', 'number_floors', 'year_built']
 
     def create(self, validated_data):
         plot = validated_data.pop('plot')
@@ -119,10 +119,9 @@ class RealestateSerializer(serializers.ModelSerializer):
         return realestate
 
     def update(self, instance: Realestate, validated_data):
-        instance.type = validated_data.get('type', instance.type)
+        instance.type_realestate = validated_data.get('type_realestate', instance.type_realestate)
         instance.number_floors = validated_data.get('number_floors', instance.number_floors)
         instance.year_built = validated_data.get('year_built', instance.year_built)
-        instance.description = validated_data.get('description', instance.description)
 
         if 'plot' in validated_data:
             plot = validated_data.get('plot')
@@ -140,7 +139,7 @@ class RealestateSerializer(serializers.ModelSerializer):
 class RealestateForFlatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Realestate
-        fields = ['id', 'plot', 'type', 'number_floors', 'year_built']
+        fields = ['id', 'plot', 'type_realestate', 'number_floors', 'year_built']
         extra_kwargs = {
             'plot': {'validators': []},
         }
@@ -189,7 +188,7 @@ class FlatSerializer(serializers.ModelSerializer):
 class RealestateForGarageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Realestate
-        fields = ['id', 'plot', 'type']
+        fields = ['id', 'plot', 'type_realestate']
         extra_kwargs = {
             'plot': {'validators': []},
         }
