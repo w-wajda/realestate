@@ -9,6 +9,7 @@ from realestates.serializers import (
     PlotSerializer,
     PlotUpdateSerializer,
     RealestateSerializer,
+    RealestateUpdateSerializer,
     FlatSerializer,
     GarageSerializer,
     OfferSerializer,
@@ -55,6 +56,12 @@ class PlotViewSet(viewsets.ModelViewSet):
 class RealestateViewSet(viewsets.ModelViewSet):
     queryset = Realestate.objects.all()
     serializer_class = RealestateSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return RealestateUpdateSerializer
+        else:
+            return super().get_serializer_class()
 
 
 class FlatViewSet(viewsets.ModelViewSet):
