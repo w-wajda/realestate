@@ -96,9 +96,6 @@ class FlatAdmin(admin.ModelAdmin):
                 ('bathroom', )
             )
         }),
-        ('Additional information', {
-            'fields': ('description',)
-        })
     )
 
     @admin.display(description='Realestate type')
