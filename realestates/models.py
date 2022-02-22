@@ -108,7 +108,6 @@ class Flat(models.Model):
     kitchen_type = models.IntegerField(verbose_name='Kitchen type', choices=KITCHEN)
     bathroom = models.PositiveSmallIntegerField(verbose_name='Number of bathroom')
     balcony_type = models.IntegerField(verbose_name='Balcony type', choices=BALCONY_TYPES, null=True, blank=False)
-    description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
         return f'{self.realestate.plot.address.city}, {self.realestate.plot.address.street}' \
