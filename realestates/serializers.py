@@ -155,7 +155,7 @@ class FlatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flat
         fields = ['id', 'realestate', 'area', 'floor_number', 'apartment_number', 'rooms', 'kitchen_type', 'bathroom',
-                  'balcony_type', 'description']
+                  'balcony_type']
 
     def create(self, validated_data):
         realestate = validated_data.pop('realestate')
@@ -174,7 +174,6 @@ class FlatSerializer(serializers.ModelSerializer):
         instance.kitchen_type = validated_data.get('kitchen_type', instance.kitchen_type)
         instance.bathroom = validated_data.get('bathroom', instance.bathroom)
         instance.balcony_type = validated_data.get('balcony_type', instance.balcony_type)
-        instance.description = validated_data.get('description', instance.description)
 
         if 'realestate' in validated_data:
             realestate = validated_data.get('realestate')
