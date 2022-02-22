@@ -62,19 +62,16 @@ class PlotAdmin(admin.ModelAdmin):
 @admin.register(Realestate)
 class RealestateAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('type', 'plot', 'year_built')
-    list_filter = ('type', )
+    list_display = ('type_realestate', 'plot', 'year_built')
+    list_filter = ('type_realestate', )
     fieldsets = (
         ('Basic information', {
             'fields': (
                 ('plot', ),
-                ('type', 'number_floors'),
+                ('type_realestate', 'number_floors'),
                 ('year_built',)
             )
         }),
-        ('Additional information', {
-            'fields': ('description', )
-        })
     )
 
 
