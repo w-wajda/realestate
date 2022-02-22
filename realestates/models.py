@@ -67,13 +67,12 @@ class Realestate(models.Model):
     )
 
     plot = models.OneToOneField(Plot, on_delete=models.CASCADE, verbose_name='Plot address')
-    type = models.IntegerField(verbose_name='Realestete type', choices=REALESTATE_TYPES)
+    type_realestate = models.IntegerField(verbose_name='Realestete type', choices=REALESTATE_TYPES)
     number_floors = models.PositiveSmallIntegerField(verbose_name='Number floors')
     year_built = models.DateField(verbose_name='Year built')
-    description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.get_type_display()}, ({self.plot.address.city}, {self.plot.address.street}' \
+        return f'{self.get_type_realestate_display()}, ({self.plot.address.city}, {self.plot.address.street}' \
                f' {self.plot.address.street_number})'
 
     class Meta:
