@@ -103,7 +103,7 @@ class ShortPlotSerializer(serializers.ModelSerializer):
 
 
 class RealestateSerializer(serializers.ModelSerializer):
-    plot = ShortPlotSerializer(many=False)
+    plot = PlotSerializer(many=False)
 
     class Meta:
         model = Realestate
@@ -113,10 +113,14 @@ class RealestateSerializer(serializers.ModelSerializer):
         plot = validated_data.pop('plot')
 
         if plot:
-            plot, created = Plot.objects.get_or_create(**plot)
+            plot = Plot.objects.create(**plot)
 
         realestate = Realestate.objects.create(plot=plot, **validated_data)
         return realestate
+
+
+class RealestateUpdateSerializer(serializers.ModelSerializer):
+    plot = ShortPlotSerializer(many=False)
 
     def update(self, instance: Realestate, validated_data):
         instance.type_realestate = validated_data.get('type_realestate', instance.type_realestate)
