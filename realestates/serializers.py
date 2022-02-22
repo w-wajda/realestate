@@ -125,12 +125,16 @@ class RealestateSerializer(serializers.ModelSerializer):
 
         if 'plot' in validated_data:
             plot = validated_data.get('plot')
-            plot, created = Plot.objects.get_or_create(**plot)
 
-            if created:
-                instance.plot.delete()
+            if instance.plot:
+                instance.plot.type_plot = plot['type_plot']
+                instance.plot.total_area_plot = plot['total_area_plot']
+                instance.plot.address = plot['address']
 
-            instance.plot = plot
+                instance.plot.save()
+            else:
+                plot = Plot.objects.create(**plot)
+                instance.plot = plot
 
         instance.save()
         return instance
