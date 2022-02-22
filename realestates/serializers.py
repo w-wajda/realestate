@@ -97,9 +97,6 @@ class ShortPlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plot
         fields = ['id', 'type_plot', 'total_area_plot', 'address']
-        extra_kwargs = {
-            'address': {'validators': []},
-        }
 
 
 class ShortPlotUpdateSerializer(serializers.ModelSerializer):
