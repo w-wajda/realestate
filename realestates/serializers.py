@@ -186,6 +186,15 @@ class FlatSerializer(serializers.ModelSerializer):
         flat = Flat.objects.create(realestate=realestate, **validated_data)
         return flat
 
+
+class FlatUpdateSerializer(serializers.ModelSerializer):
+    realestate = RealestateUpdateForFlatSerializer(many=False)
+
+    class Meta:
+        model = Flat
+        fields = ['id', 'realestate', 'area', 'floor_number', 'apartment_number', 'rooms', 'kitchen_type', 'bathroom',
+                  'balcony_type']
+
     def update(self, instance: Flat, validated_data):
         instance.area = validated_data.get('area', instance.area)
         instance.floor_number = validated_data.get('floor_number', instance.floor_number)
