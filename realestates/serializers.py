@@ -199,19 +199,26 @@ class FlatUpdateSerializer(serializers.ModelSerializer):
         instance.area = validated_data.get('area', instance.area)
         instance.floor_number = validated_data.get('floor_number', instance.floor_number)
         instance.apartment_number = validated_data.get('apartment_number', instance.apartment_number)
-        instance.rooms = validated_data.get('room', instance.rooms)
+        instance.rooms = validated_data.get('rooms', instance.rooms)
         instance.kitchen_type = validated_data.get('kitchen_type', instance.kitchen_type)
         instance.bathroom = validated_data.get('bathroom', instance.bathroom)
         instance.balcony_type = validated_data.get('balcony_type', instance.balcony_type)
 
         if 'realestate' in validated_data:
             realestate = validated_data.get('realestate')
-            realestate, created = Realestate.objects.get_or_create(**realestate)
 
-            if created:
-                instance.realestate.delete()
+            if instance.realestate:
+                instance.realestate.type_realestate = realestate['type_realestate']
+                instance.realestate.number_floors = realestate['number_floors']
+                instance.realestate.year_built = realestate['year_built']
+                instance.realestate.plot = realestate['plot']
 
-            instance.realestate = realestate
+                instance.realestate.save()
+
+            else:
+                realestate = Realestate.objects.create(**realestate)
+                instance.realestate = realestate
+
 
         instance.save()
         return instance
