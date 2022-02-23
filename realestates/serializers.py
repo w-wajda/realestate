@@ -163,6 +163,15 @@ class RealestateForFlatSerializer(serializers.ModelSerializer):
         }
 
 
+class RealestateUpdateForFlatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Realestate
+        fields = ['id', 'plot', 'type_realestate', 'number_floors', 'year_built']
+        extra_kwargs = {
+            'plot': {'validators': []},
+        }
+
+
 class FlatSerializer(serializers.ModelSerializer):
     realestate = RealestateForFlatSerializer(many=False)  # FK
 
