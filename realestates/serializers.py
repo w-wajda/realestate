@@ -219,12 +219,20 @@ class FlatUpdateSerializer(serializers.ModelSerializer):
                 realestate = Realestate.objects.create(**realestate)
                 instance.realestate = realestate
 
-
         instance.save()
         return instance
 
 
 class RealestateForGarageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Realestate
+        fields = ['id', 'plot', 'type_realestate']
+        extra_kwargs = {
+            'plot': {'validators': []},
+        }
+
+
+class RealestateUpdateForGarageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Realestate
         fields = ['id', 'plot', 'type_realestate']
