@@ -260,7 +260,7 @@ class GarageUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Garage
-        fields = ['id', 'realestate', 'type', 'parking_number', 'description']
+        fields = ['id', 'realestate', 'type_garage', 'parking_number']
 
     def update(self, instance: Garage, validated_data):
         instance.type = validated_data.get('type', instance.type)
