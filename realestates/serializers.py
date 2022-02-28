@@ -243,7 +243,7 @@ class GarageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Garage
-        fields = ['id', 'realestate', 'type', 'parking_number', 'description']
+        fields = ['id', 'realestate', 'type_garage', 'parking_number']
 
     def create(self, validated_data):
         realestate = validated_data.pop('realestate')
