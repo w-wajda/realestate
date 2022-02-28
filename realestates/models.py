@@ -132,12 +132,11 @@ class Garage(models.Model):
     )
 
     realestate = models.ForeignKey(Realestate, on_delete=models.CASCADE, verbose_name='Realestate')
-    type = models.IntegerField(verbose_name='Garage type', choices=GARAGE_TYPES)
+    type_garage = models.IntegerField(verbose_name='Garage type', choices=GARAGE_TYPES)
     parking_number = models.PositiveSmallIntegerField(verbose_name='Parking space number')
-    description = models.TextField(verbose_name='Description', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.get_type_display()}, ({self.realestate.plot.address.city}, ' \
+        return f'{self.get_type_garage_display()}, ({self.realestate.plot.address.city}, ' \
                f'{self.realestate.plot.address.street} {self.realestate.plot.address.street_number}, ' \
                f'space number: {self.parking_number})'
 
