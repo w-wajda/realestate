@@ -265,7 +265,6 @@ class GarageUpdateSerializer(serializers.ModelSerializer):
     def update(self, instance: Garage, validated_data):
         instance.type = validated_data.get('type', instance.type)
         instance.parking_number = validated_data.get('parking_number', instance.parking_number)
-        instance.description = validated_data.get('description', instance.description)
 
         if 'realestate' in validated_data:
             realestate = validated_data.get('realestate')
