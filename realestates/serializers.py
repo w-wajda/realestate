@@ -254,6 +254,14 @@ class GarageSerializer(serializers.ModelSerializer):
         garage = Garage.objects.create(realestate=realestate, **validated_data)
         return garage
 
+
+class GarageUpdateSerializer(serializers.ModelSerializer):
+    realestate = RealestateUpdateForGarageSerializer(many=False)
+
+    class Meta:
+        model = Garage
+        fields = ['id', 'realestate', 'type', 'parking_number', 'description']
+
     def update(self, instance: Garage, validated_data):
         instance.type = validated_data.get('type', instance.type)
         instance.parking_number = validated_data.get('parking_number', instance.parking_number)
