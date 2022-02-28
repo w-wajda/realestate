@@ -111,19 +111,16 @@ class FlatAdmin(admin.ModelAdmin):
 @admin.register(Garage)
 class GarageAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('type', 'garage_address', 'parking_number')
-    list_filter = ('type', )
-    search_fields = ['type']
+    list_display = ('type_garage', 'garage_address', 'parking_number')
+    list_filter = ('type_garage', )
+    search_fields = ['type_garage']
     fieldsets = (
         ('Basic information', {
             'fields': (
                 ('realestate', ),
-                ('type', 'parking_number'),
+                ('type_garage', 'parking_number'),
             )
         }),
-        ('Additional information', {
-            'fields': ('description',)
-        })
     )
 
     @admin.display(description='Garage address')
