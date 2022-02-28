@@ -13,6 +13,7 @@ from realestates.serializers import (
     FlatSerializer,
     FlatUpdateSerializer,
     GarageSerializer,
+    GarageUpdateSerializer,
     OfferSerializer,
     OfferUpdateSerializer
 )
@@ -79,6 +80,12 @@ class FlatViewSet(viewsets.ModelViewSet):
 class GarageViewSet(viewsets.ModelViewSet):
     queryset = Garage.objects.all()
     serializer_class = GarageSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return GarageUpdateSerializer
+        else:
+            return super().get_serializer_class()
 
 
 class OfferViewSet(viewsets.ModelViewSet):
