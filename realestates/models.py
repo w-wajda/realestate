@@ -142,6 +142,7 @@ class Garage(models.Model):
 
     class Meta:
         verbose_name = 'Garage'
+        unique_together = ['realestate', 'type_garage', 'parking_number']
 
 
 class Offer(models.Model):
@@ -153,7 +154,7 @@ class Offer(models.Model):
         (LEASE, 'Lease')
     ]
 
-    type = models.IntegerField(verbose_name='Offer type', choices=OFFER_TYPES)
+    type_offer = models.IntegerField(verbose_name='Offer type', choices=OFFER_TYPES)
     price = models.PositiveSmallIntegerField(verbose_name='Price')
     description = models.TextField(verbose_name='Description')
     limit = Q(app_label='realestates', model='plot') | Q(app_label='realestates', model='base') | \
@@ -165,7 +166,7 @@ class Offer(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name='Client', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.get_type_display()}, ({self.content_type})'
+        return f'{self.get_type_offer_display()}, ({self.content_type})'
 
     class Meta:
         verbose_name = 'Offer'
