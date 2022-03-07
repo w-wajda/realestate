@@ -292,7 +292,7 @@ class OfferSerializer(serializers.ModelSerializer):
         if client:
             client, created = Client.objects.get_or_create(**client)
 
-        offer = Offer.objects.get_or_create(client=client, **validated_data)
+        offer = Offer.objects.create(client=client, **validated_data)
         return offer
 
 
