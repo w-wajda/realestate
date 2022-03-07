@@ -263,17 +263,23 @@ class GarageUpdateSerializer(serializers.ModelSerializer):
         fields = ['id', 'realestate', 'type_garage', 'parking_number']
 
     def update(self, instance: Garage, validated_data):
-        instance.type = validated_data.get('type', instance.type)
+        instance.type_garage = validated_data.get('type_garage', instance.type_garage)
         instance.parking_number = validated_data.get('parking_number', instance.parking_number)
 
         if 'realestate' in validated_data:
             realestate = validated_data.get('realestate')
-            realestate, created = Realestate.objects.get_or_create(**realestate)
 
-            if created:
-                instance.realestate.delete()
+            if instance.realestate:
+                instance.realestate.type_realestate = realestate['type_realestate']
+                instance.realestate.number_floors = realestate['number_floors']
+                instance.realestate.year_built = realestate['year_built']
+                instance.realestate.plot = realestate['plot']
 
-            instance.realestate = realestate
+                instance.realestate.save()
+
+            else:
+                realestate = Realestate.objects.create(**realestate)
+                instance.realestate = realestate
 
         instance.save()
         return instance
