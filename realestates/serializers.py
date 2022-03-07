@@ -226,7 +226,10 @@ class FlatUpdateSerializer(serializers.ModelSerializer):
 class RealestateForGarageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Realestate
-        fields = ['id', 'plot', 'type_realestate']
+        fields = ['id', 'plot']
+        extra_kwargs = {
+            'plot': {'validators': []},
+        }
 
 
 class RealestateUpdateForGarageSerializer(serializers.ModelSerializer):
@@ -314,10 +317,10 @@ class OfferUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ['id', 'type', 'price', 'description', 'content_type', 'object_id', 'client']
+        fields = ['id', 'type_offer', 'price', 'description', 'content_type', 'object_id', 'client']
 
     def update(self, instance: Offer, validated_data):
-        instance.type = validated_data.get('type', instance.type)
+        instance.type_offer = validated_data.get('type_offer', instance.type_offer)
         instance.price = validated_data.get('price', instance.price)
         instance.description = validated_data.get('description', instance.description)
         instance.content_type = validated_data.get('content_type', instance.content_type)
