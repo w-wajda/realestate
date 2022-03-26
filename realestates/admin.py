@@ -132,13 +132,13 @@ class GarageAdmin(admin.ModelAdmin):
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('type_offer', 'content_type', 'object_id', 'price', 'client')
-    list_filter = ('type_offer', 'content_type')
+    list_display = ('type', 'content_type', 'object_id', 'price', 'client')
+    list_filter = ('type', 'content_type')
 
     fieldsets = (
         ('Basic information', {
             'fields': (
-                ('type_offer', 'content_type'),
+                ('type', 'content_type'),
                 ('object_id', 'price'),
             )
         }),
