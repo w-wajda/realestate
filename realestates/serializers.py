@@ -266,7 +266,7 @@ class GarageUpdateSerializer(serializers.ModelSerializer):
         fields = ['id', 'realestate', 'type_garage', 'parking_number']
 
     def update(self, instance: Garage, validated_data):
-        instance.type = validated_data.get('type', instance.type)
+        instance.type_garage = validated_data.get('type_garage', instance.type_garage)
         instance.parking_number = validated_data.get('parking_number', instance.parking_number)
 
         if 'realestate' in validated_data:
@@ -280,6 +280,13 @@ class GarageUpdateSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class ClientUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ['id', 'name', 'surname', 'email', 'mobile_number']
+        validators = []
 
 
 class OfferSerializer(serializers.ModelSerializer):
@@ -299,22 +306,15 @@ class OfferSerializer(serializers.ModelSerializer):
         return offer
 
 
-class ClientUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Client
-        fields = ['id', 'name', 'surname', 'email', 'mobile_number']
-        validators = []
-
-
 class OfferUpdateSerializer(serializers.ModelSerializer):
     client = ClientUpdateSerializer(many=False)
 
     class Meta:
         model = Offer
-        fields = ['id', 'type_offer', 'price', 'description', 'content_type', 'object_id', 'client']
+        fields = ['id', 'typer', 'price', 'description', 'content_type', 'object_id', 'client']
 
     def update(self, instance: Offer, validated_data):
-        instance.type_offer = validated_data.get('type_offer', instance.type_offer)
+        instance.type = validated_data.get('type', instance.type)
         instance.price = validated_data.get('price', instance.price)
         instance.description = validated_data.get('description', instance.description)
         instance.content_type = validated_data.get('content_type', instance.content_type)
