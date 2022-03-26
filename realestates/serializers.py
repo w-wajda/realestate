@@ -271,12 +271,18 @@ class GarageUpdateSerializer(serializers.ModelSerializer):
 
         if 'realestate' in validated_data:
             realestate = validated_data.get('realestate')
-            realestate, created = Realestate.objects.get_or_create(**realestate)
 
-            if created:
-                instance.realestate.delete()
+            if instance.realestate:
+                instance.realestate.type_realestate = realestate['type_realestate']
+                instance.realestate.number_floors = realestate['number_floors']
+                instance.realestate.year_built = realestate['year_built']
+                instance.realestate.plot = realestate['plot']
 
-            instance.realestate = realestate
+                instance.realestate.save()
+
+            else:
+                realestate = Realestate.objects.create(**realestate)
+                instance.realestate = realestate
 
         instance.save()
         return instance
@@ -302,7 +308,7 @@ class OfferSerializer(serializers.ModelSerializer):
         if client:
             client, created = Client.objects.get_or_create(**client)
 
-        offer = Offer.objects.get_or_create(client=client, **validated_data)
+        offer = Offer.objects.create(client=client, **validated_data)
         return offer
 
 
